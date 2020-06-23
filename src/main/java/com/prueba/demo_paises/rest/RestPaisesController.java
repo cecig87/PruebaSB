@@ -7,6 +7,8 @@ import com.prueba.demo_paises.repo.IPaisRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +22,10 @@ public class RestPaisesController {
     @GetMapping   
     public List<Pais> listar() {
         return repo.findAll();
+    }
+
+    @PostMapping
+    public void InsertarPais(@RequestBody Pais pais) {
+        repo.save(pais);
     }
 }
