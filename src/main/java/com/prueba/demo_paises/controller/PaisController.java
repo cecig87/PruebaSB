@@ -21,7 +21,7 @@ public class PaisController {
  
     
     Pais country = new Pais();
-   country.setIdPais(2);
+  // country.setIdPais(2);
     country.setName("Italia");
    country.setInfectados(153000);
     country.setRecuperados(90000);
