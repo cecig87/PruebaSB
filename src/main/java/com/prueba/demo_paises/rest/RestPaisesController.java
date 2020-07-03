@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import com.prueba.demo_paises.model.Pais;
 import com.prueba.demo_paises.repo.IPaisRepo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class RestPaisesController {
     @Autowired
     private IPaisRepo repo;
 
+    private static Logger Log = LoggerFactory.getLogger(RestPaisesController.class);
+
     @GetMapping   
     public List<Pais> listar() {
         return repo.findAll();
@@ -31,14 +35,27 @@ public class RestPaisesController {
 
     @PostMapping
     public ResponseEntity<Pais> InsertarPais(@Valid @RequestBody Pais pais ) {
-       Pais returnValue = repo.save(pais);
-       
-            
-       return new ResponseEntity<Pais>(returnValue, HttpStatus.OK);
+     
+    // Pais returnValue;
+    String compara = pais.getName();
+      Pais repet = repo.findByName(compara);
+
       
-         //if(pais.getName() == null) {
-           // System.out.println("ERROR: el campo nombre no debe estar vacío.");
-              //  } 
+    if(repet != null){
+      Log.warn("Este país ya se encuentra registrado.");
+ 
+       return new ResponseEntity<Pais>(HttpStatus.OK);
+      } 
+
+       try{
+          repo.save(pais);
+       
+       } catch(Exception e){
+          System.out.println("Error: " + e.getMessage());
+       }
+
+      return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+         
               }
  
 }
