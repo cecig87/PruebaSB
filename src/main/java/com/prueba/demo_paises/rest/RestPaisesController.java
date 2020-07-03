@@ -34,17 +34,15 @@ public class RestPaisesController {
     }
 
     @PostMapping
-    public ResponseEntity<Pais> InsertarPais(@Valid @RequestBody Pais pais ) {
+    public ResponseEntity<?> InsertarPais(@Valid @RequestBody Pais pais ) {
      
-    // Pais returnValue;
     String compara = pais.getName();
       Pais repet = repo.findByName(compara);
-
       
     if(repet != null){
       Log.warn("Este país ya se encuentra registrado.");
- 
-       return new ResponseEntity<Pais>(HttpStatus.OK);
+      String msg = "Ese país ya existe.";
+       return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
       } 
 
        try{
@@ -54,7 +52,7 @@ public class RestPaisesController {
           System.out.println("Error: " + e.getMessage());
        }
 
-      return new ResponseEntity<Pais>(pais, HttpStatus.OK);
+       return new ResponseEntity<Pais>(pais, HttpStatus.OK);
          
               }
  

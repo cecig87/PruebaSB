@@ -15,7 +15,7 @@ public class Pais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "Nombre", length = 50, unique = true) //unique=true
+    @Column(name = "Nombre", length = 50, unique = true) 
     @NotNull(message="Por favor escriba un nombre") 
     private String name;
     @Column(name ="Infectados", length = 50)
