@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.prueba.demo_paises.model.Pais;
+import com.prueba.demo_paises.model.Respuesta;
 import com.prueba.demo_paises.repo.IPaisRepo;
 
 import org.slf4j.Logger;
@@ -41,8 +42,13 @@ public class RestPaisesController {
       
     if(repet != null){
       Log.warn("Este país ya se encuentra registrado.");
-      String msg = "Ese país ya existe.";
-       return new ResponseEntity<String>(msg, HttpStatus.BAD_REQUEST);
+                                  //probar con "name": "mensaje"
+     // Object msg ={"Error", "Ese país ya existe."};
+     //String error = "Ese país ya existe";
+
+     Respuesta msg = new Respuesta();
+     msg.setError("Ese país ya existe.");
+       return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
       } 
 
        try{
