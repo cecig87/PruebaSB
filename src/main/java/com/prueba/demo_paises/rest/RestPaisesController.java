@@ -63,12 +63,21 @@ public class RestPaisesController {
               }
 
               @DeleteMapping(value = "/{id}")
-              public void eliminarPais(@PathVariable("id") Integer id) {
-                 repo.deleteById(id);
+              public ResponseEntity<Respuesta> eliminarPais(@PathVariable("id") Integer id) {
                
-               Log.warn("Se ha eliminado el país con id " + id);
-                
-              
+               if(repo.existsById(id)){
+                repo.deleteById(id);
+               
+                Respuesta borrado = new Respuesta();
+                borrado.setBorrado("País con id " + id);
+              Log.warn("Se ha eliminado el país con id " + id);
+              return new ResponseEntity<Respuesta>(borrado, HttpStatus.OK);
+               } else {
+                 Log.warn("Ese país no se encontraba registrado.");
+                 Respuesta malBorrado = new Respuesta();
+                 malBorrado.setError("El país no se encontraba registrado.");
+                 return new ResponseEntity<Respuesta>(malBorrado, HttpStatus.BAD_REQUEST);
+               }
               }
  
 }
