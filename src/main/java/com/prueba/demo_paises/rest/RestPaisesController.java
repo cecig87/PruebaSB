@@ -88,22 +88,24 @@ public class RestPaisesController {
                String revisar = newPais.getName();
                Pais repetido = repo.findByName(revisar);
                 
-                if(repetido != null){
-                 Log.warn("El país ya existe.");
-                 Respuesta errorModificar = new Respuesta();
-                 errorModificar.setError("Ese país ya se encontraba registrado.");
-                 return new ResponseEntity<>(errorModificar, HttpStatus.BAD_REQUEST);
-                 } 
+               // if(repetido != null){
+               //  Log.warn("El país ya existe.");
+               //  Respuesta errorModificar = new Respuesta();
+               //  errorModificar.setError("Ya existe un país con el nombre registrado.");
+                // return new ResponseEntity<>(errorModificar, HttpStatus.BAD_REQUEST);
+                // } 
                   
-                if(repo.existsById(id)){
+                if(repo.existsById(id) && repetido == null) {
                  newPais.setIdPais(id);
                  repo.save(newPais);
                  Log.info("País actualizado.");
                  return new ResponseEntity<Pais>(newPais, HttpStatus.OK);
+                } else if(repetido != null){
+                  return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 } else {
-                 Log.warn("Error: no se puede modificar porque no existe en la base de datos.");
+                 Log.warn("No se puede modificar. Verifique los datos.");
                  Respuesta noExiste = new Respuesta();
-                 noExiste.setError("No se puede modificar un país que no estaba registrado.");
+                 noExiste.setError("No se ha podido efectuar la actualización porque no existe un país con ese id.");
                  return new ResponseEntity<>(noExiste, HttpStatus.BAD_REQUEST);  
               }
 
