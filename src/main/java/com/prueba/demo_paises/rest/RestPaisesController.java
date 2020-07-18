@@ -102,7 +102,10 @@ public class RestPaisesController {
                     return new ResponseEntity<Pais>(newPais, HttpStatus.OK);
                     } else {
                      Log.warn("El país ya existe.");
-                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                     Respuesta errorModificar = new Respuesta();
+                     errorModificar.setError("Ya existe un país con ese nombre.");
+
+                     return new ResponseEntity<>(errorModificar, HttpStatus.BAD_REQUEST);
                      }
                    } 
                 
